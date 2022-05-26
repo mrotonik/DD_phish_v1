@@ -25,5 +25,19 @@
   </form>
   </body>
   <script>
+    $(document).ready(function(){
+
+  $(".multi").on('click',function(){
+
+  $(".multiple-urls").show();
+  $(".single-url").hide();
+  });
+
+  $(".single").on('click',function(){
+
+  $(".multiple-urls").hide();
+  $(".single-url").show();
+  });
+
   </script>
 </html>
