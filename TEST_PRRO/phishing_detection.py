@@ -2,9 +2,9 @@ import numpy as np
 import feature_extraction
 from sklearn.ensemble import RandomForestClassifier as rfc
 from sklearn.model_selection import train_test_split
-
+global X_la
 def getResult(url):
-
+    global X_la
     data = np.loadtxt("dataset.csv", delimiter = ",")
     X = data[: , :-1]
     y = data[: , -1]
@@ -18,7 +18,9 @@ def getResult(url):
     X_new = []
 
     X_input = url
-    X_new=feature_extraction.generate_data_set(X_input)
+
+    X_new=feature_extraction.generate_dataset(X_input)
+    print(X_new)
     X_new = np.array(X_new).reshape(1,-1)
     print('===========')
     print(X_new[0][:17])
@@ -30,6 +32,7 @@ def getResult(url):
             X_la[0].append(X_new[0][i])
         else:
             X_la[0].append('1')
+
     print(X_la)
     try:
         prediction = clf.predict(X_la)
@@ -39,3 +42,21 @@ def getResult(url):
             return "Legitimate Url"
     except:
         return "Phishing Url"
+
+print(getResult('https://stackoverflow.com/questions/16743889/cant-use-scikit-learn-attributeerror-module-object-has-no-attribute'))
+print(X_la)
+data=''
+print(X_la[0])
+if X_la[0][0]=='-1':
+    data+='●Змогли отримати інформацію о IP адресі сервісу ✅\n'
+else:
+    data+='●Не змогли отримати інформацію о IP адресі сервісу ❌\n'
+
+print(X_la[0][0])
+
+if X_la[0][2]=='-1':
+    data+='●Посилання було скорочено ❌\n'
+else:
+    data+='●Посилання не було скорочено ✅\n'
+
+print(data)
