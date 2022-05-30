@@ -71,7 +71,7 @@ def generate_dataset(url):
                     'q\.gs|is\.gd|po\.st|bc\.vc|twitthis\.com|u\.to|j\.mp|buzurl\.com|cutt\.us|u\.bb|yourls\.org|'
                     'x\.co|prettylinkpro\.com|scrnch\.me|filoops\.info|vzturl\.com|qr\.net|1url\.com|tweez\.me|v\.gd|tr\.im|link\.zip\.net',url)
     if match:
-        data_set.append(match)
+        data_set.append(-1)
     else:
         data_set.append(1)
 
