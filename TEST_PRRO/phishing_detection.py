@@ -1,10 +1,63 @@
 import numpy as np
+import requests
+
 import feature_extraction
 from sklearn.ensemble import RandomForestClassifier as rfc
 from sklearn.model_selection import train_test_split
 global X_la
+def get_R(X_la):
+    data = ''
+    # print(X_la[0])
+    if X_la[0][0] == '-1':
+        data += '●Змогли отримати інформацію о IP адресі сервісу ❌\n'
+    else:
+        data += '●Не змогли отримати інформацію о IP адресі сервісу ✅\n'
+
+    print(X_la[0][0])
+
+    if X_la[0][2] == '-1':
+        data += '●Посилання було скорочено ❌\n'
+    else:
+        data += '●Посилання не було скорочено ✅\n'
+
+    if X_la[0][3] == '1':
+        data += '●Посилання не має символу "@" ✅\n'
+    else:
+        data += '●Посилання має "@" ❌\n'
+
+    if X_la[0][4] == '1':
+        data += '●Посилання не має "//" ✅\n'
+    else:
+        data += '●Посилання має "//" ❌\n'
+
+    if X_la[0][5] == '1':
+        data += '●Посилання не має префіксів(суфіксів) ✅\n'
+    else:
+        data += '●Посилання має префікси(суфікси)"//" ❌\n'
+
+    if X_la[0][6] == '1':
+        data += '●Посилання має один субдомен ✅\n'
+    elif X_la[0][6] == '0':
+        data += '●Посилання має два субдомена ✅\n'
+    else:
+        data += '●Посилання має більше двох субдоменів ❌\n'
+
+    if X_la[0][7] == '1':
+        data += '●Отримали контент запитуваної сторінки ✅\n'
+    else:
+        data += '●Не отримали контент запитуваної сторінки ❌\n'
+
+    # if X_la
+    print(data)
+def check_site(site):
+    try:
+        response = requests.get(site)
+        print(f'На сайт "{site}" можно перейти')
+    except:
+        print(f'Сайт "{site}" не открывается')
 def getResult(url):
     global X_la
+    check_site(url)
     data = np.loadtxt("dataset.csv", delimiter = ",")
     X = data[: , :-1]
     y = data[: , -1]
@@ -43,49 +96,5 @@ def getResult(url):
     except:
         return "Phishing Url"
 
-print(getResult('https://stackoverflow.com/questions/16743889/cant-use-scikit-learn-attributeerror-module-object-has-no-attribute'))
-print(X_la)
-data=''
-print(X_la[0])
-if X_la[0][0]=='-1':
-    data+='●Змогли отримати інформацію о IP адресі сервісу ❌\n'
-else:
-    data+='●Не змогли отримати інформацію о IP адресі сервісу ✅\n'
+#print(getResult('http://ianfette.org'))
 
-print(X_la[0][0])
-
-if X_la[0][2]=='-1':
-    data+='●Посилання було скорочено ❌\n'
-else:
-    data+='●Посилання не було скорочено ✅\n'
-
-
-if X_la[0][3]=='1':
-    data+='●Посилання не має символу "@" ✅\n'
-else:
-    data+='●Посилання має "@" ❌\n'
-
-if X_la[0][4]=='1':
-    data+='●Посилання не має "//" ✅\n'
-else:
-    data+='●Посилання має "//" ❌\n'
-
-if X_la[0][5]=='1':
-    data+='●Посилання не має префіксів(суфіксів) ✅\n'
-else:
-    data+='●Посилання має префікси(суфікси)"//" ❌\n'
-
-if X_la[0][6] == '1':
-    data += '●Посилання має один субдомен ✅\n'
-elif X_la[0][6] == '0':
-    data += '●Посилання має два субдомена ✅\n'
-else:
-    data += '●Посилання має більше двох субдоменів ❌\n'
-
-if X_la[0][7] == '1':
-    data += '●Отримали контент запитуваної сторінки ✅\n'
-else:
-    data += '●Не отримали контент запитуваної сторінки ❌\n'
-
-if X_la
-print(data)
