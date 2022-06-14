@@ -7,7 +7,7 @@ import socket
 import requests
 from googlesearch import search
 import whois
-from datetime import datetime
+from datetime import datetime, date
 import time
 from dateutil.parser import parse as date_parse
 
@@ -76,17 +76,20 @@ def generate_dataset(url):
         data_set.append(1)
 
     if re.findall("@", url):
-        data_set.append(url)
+        #data_set.append(url)
+        data_set.append(-1)
     else:
         data_set.append(1)
     list=[x.start(0) for x in re.finditer('//', url)]
     if list[len(list)-1]>6:
-        data_set.append(list)
+        #data_set.append(list)
+        data_set.append(-1)
     else:
         data_set.append(1)
 
     if re.findall(r"https?://[^\-]+-[^\-]+/", url):
-        data_set.append(url)
+        #data_set.append(url)
+        data_set.append(-1)
     else:
         data_set.append(1)
 
@@ -264,12 +267,14 @@ def generate_dataset(url):
             data_set.append(-1)
 
     if response == "":
-        data_set.append(response)
+        #data_set.append(response)
+        data_set.append(-1)
     else:
         if response.text == "":
             data_set.append(1)
         else:
-            data_set.append(response.text)
+            #data_set.append(response.text)
+            data_set.append(-1)
 
     if response == "":
         data_set.append(response)
